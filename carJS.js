@@ -7,59 +7,53 @@ $(document).ready(function(){
 
 	$.ajax({
     //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-    url: dir,
-    success: function (data) {
+    	url: dir,
+    	success: function (data) {
         //find all image files in folder
-        				if($(data).find("a:contains(" + png  + ")")){
-				        	$(data).find("a:contains(" + png  + ")").each(function() {
+        	if($(data).find("a:contains(" + png  + ")")){
+        		$(data).find("a:contains(" + png  + ")").each(function() {
 
-        					var filename = this.href.replace(window.location.host, "").replace("http:///", "").
-        					replace("JQuery/Carousel/", "");
+        			var filename = this.href.substring(this.href.lastIndexOf("/"));
+        			
+        			$("ul").append($("<li><a href='#'><img src=" + dir + filename + "></img></a></li>"));
+        		});
+        	}
 
-        					$("ul").append($("<li><a href='#'><img src=" + dir + filename + "></img></a></li>"));
-        					});
-        				}
+        	if($(data).find("a:contains(" + jpg  + ")")){
+        		$(data).find("a:contains(" + jpg  + ")").each(function() {
 
-        				if($(data).find("a:contains(" + jpg  + ")")){
-        					$(data).find("a:contains(" + jpg  + ")").each(function() {
+        			var filename = this.href.substring(this.href.lastIndexOf("/"));
+        			$("ul").append($("<li><a href='#'><img src=" + dir + filename + "></img></a></li>"));
+        		});
+        	}
 
-        					var filename = this.href.replace(window.location.host, "").replace("http:///", "").
-        					replace("JQuery/Carousel/", "");
+        	if($(data).find("a:contains(" + gif  + ")")){
+        		$(data).find("a:contains(" + gif  + ")").each(function() {
 
-        					$("ul").append($("<li><a href='#'><img src=" + dir + filename + "></img></a></li>"));
-        					});
-        				}
-
-        				if($(data).find("a:contains(" + gif  + ")")){
-        					$(data).find("a:contains(" + gif  + ")").each(function() {
-
-        					var filename = this.href.replace(window.location.host, "").replace("http:///", "").
-        					replace("JQuery/Carousel/", "");
-
-        					$("ul").append($("<li><a href='#'><img src=" + dir + filename + "></img></a></li>"));
-        					});
-        				}
-			}
+        			var filename = this.href.substring(this.href.lastIndexOf("/"));
+        			$("ul").append($("<li><a href='#'><img src=" + dir + filename + "></img></a></li>"));
+        		});
+        	}
+		}
 	});
 
-		$(document).bind("ajaxComplete", function() {
-			$('#jquery-carousel li').first().addClass('active');
+	$(document).bind("ajaxComplete", function() {
+		$('#jquery-carousel li').first().addClass('active');
 
-			$('#jquery-carousel .next a').on("click",function(e){
-				e.preventDefault();
-				e.stopPropagation();
-				next();
-			});
+		$('#jquery-carousel .next a').on("click",function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			next();
+		});
 
+		$('#jquery-carousel .prev a').on("click",function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			prev();
+		});
 
-			$('#jquery-carousel .prev a').on("click",function(e){
-				e.preventDefault();
-				e.stopPropagation();
-				prev();
-			});
-
-			var auto = setInterval(function() { 
-				next()	}, 6000);
+		var auto = setInterval(function() { 
+			next()	}, 6000);
 	});
 });
 
